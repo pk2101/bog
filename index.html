@@ -98,9 +98,9 @@
         let roadGraphic;
         let messages = [
             { text: "Basics of Bhagavad-Gita", size: 24 },
-            { text: "A thematic study on 108 important slokas of Bhagavad-Gita", size: 14 },
+            { text: "A thematic study on 108 important slokas", size: 18 },
             { text: "Based on the teachings of His Divine Grace", size: 18 },
-            { text: "A.C. Bhaktivedanta Swami Prabhupada", size: 22 }
+            { text: "A.C. Bhaktivedanta Swami Prabhupada", size: 20 }
         ];
         let typedText = "";
         let charIndex = 0;
@@ -219,7 +219,7 @@
             let glowLayers = 20;
             for (let i = glowLayers; i > 0; i--) {
                 let radius = (i / glowLayers) * maxRadius;
-                let sunAlpha = map(i, 0, glowLayers, 0, alpha);
+                let sunAlpha = map(i, 0, 250, 0, alpha);
                 fill(255, 200, 100, sunAlpha);
                 circle(x, y, radius * 2);
             }
@@ -285,20 +285,24 @@
             pop();
 
             push();
-            textSize(18);
+            textSize(16);
             let marginX = width * 0.02;
-            let marginY = height * 0.05;
+            let marginY = height * 0.08;
             textAlign(RIGHT, TOP);
             fill(255, 215, 0);
-            text("Speaker:", width - marginX, height - marginY - 60);
-            text("Rajat Prabhu", width - marginX, height - marginY - 40);
+            textFont("Georgia");
+            text("Speaker:", width - marginX, height - marginY - 80);
+            text("Rajat Prabhu", width - marginX, height - marginY - 60);
+            text("ISKCON PUNE", width - marginX, height - marginY - 40);
+            textFont("Courier New");
+            text("7428953120", width - marginX, height - marginY - 20);
             fill(0, 0, 0, 100);
-            text("Speaker:", width - marginX - 2, height - marginY - 62);
-            text("Rajat Prabhu", width - marginX - 2, height - marginY - 42);
-            fill(255, 215, 0);
-            text("ISKCON PUNE", width - marginX, height - marginY - 20);
-            fill(0, 0, 0, 100);
-            text("ISKCON PUNE", width - marginX - 2, height - marginY - 22);
+            textFont("Georgia");
+            text("Speaker:", width - marginX - 2, height - marginY - 82);
+            text("Rajat Prabhu", width - marginX - 2, height - marginY - 62);
+            text("ISKCON PUNE", width - marginX - 2, height - marginY - 42);
+            textFont("Courier New");
+            text("7428953120", width - marginX - 2, height - marginY - 22);
             pop();
         }
 
