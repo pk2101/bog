@@ -25,17 +25,17 @@
             z-index: 10;
         }
         #imageContainerTopLeft {
-            top: 5%; /* 5% margin from top */
-            left: 5%; /* 5% margin from left */
+            top: 5%;
+            left: 5%;
         }
         #imageContainerTopRight {
-            top: 5%; /* 5% margin from top */
-            right: 5%; /* 5% margin from right */
+            top: 5%;
+            right: 5%;
         }
         #imageContainerTopMiddle {
-            top: 5%; /* Same vertical position as other images */
-            left: 50%; /* Center horizontally */
-            transform: translateX(-50%); /* Offset to center the image */
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
         }
         #imageTopLeft, #imageTopRight, #imageTopMiddle {
             width: 100%;
@@ -47,14 +47,14 @@
             z-index: 10;
         }
         #chariotImage {
-            max-width: 200px; /* Reduced from 300px to 200px */
+            max-width: 200px;
             height: auto;
         }
         #registerLink {
             position: absolute;
-            top: calc(5% + 110px); /* Below top-right image (5% + 100px height + 10px margin) */
-            right: 5%; /* Aligned with top-right image */
-            width: 100px; /* Match image width for centering */
+            top: calc(5% + 110px);
+            right: 5%;
+            width: 100px;
             font-family: Georgia, serif;
             font-size: 18px;
             font-weight: bold;
@@ -62,14 +62,14 @@
             text-decoration: underline;
             text-align: center;
             z-index: 10;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Black shadow */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
         }
         #registerLink a {
             color: white;
             text-decoration: underline;
         }
         #registerLink a:hover {
-            color: #FFD700; /* Golden hover effect for visibility */
+            color: #FFD700;
         }
     </style>
 </head>
@@ -97,18 +97,21 @@
         let nebula;
         let roadGraphic;
         let messages = [
-            "Basics of Bhagavad-Gita" // Only second message
+            { text: "Basics of Bhagavad-Gita", size: 24 },
+            { text: "A thematic study on 108 important slokas of Bhagavad-Gita", size: 18 },
+            { text: "Based on the teachings of His Divine Grace", size: 20 },
+            { text: "A.C. Bhaktivedanta Swami Prabhupada", size: 22 }
         ];
         let typedText = "";
         let charIndex = 0;
         let lastUpdate = 0;
-        let typingSpeed = 75; // 75ms per character
-        let messageDelay = 3000; // 3 seconds delay
+        let typingSpeed = 75;
+        let messageDelay = 3000;
+        let currentMessageIndex = 0;
         let cycleTime = 0;
-        let isFirstMessage = true;
         let chariotX, chariotY;
-        let holdStartTime = 0; // Track when hold phase starts
-        let holdDuration = 3000; // 3 seconds hold duration
+        let holdStartTime = 0;
+        let holdDuration = 3000;
 
         function setup() {
             createCanvas(windowWidth, windowHeight);
@@ -117,17 +120,15 @@
             generateNebula();
             generateStars();
             generateRoad();
-            textFont("Georgia"); // Spiritual and royal font
-            textAlign(CENTER, CENTER); // Centered alignment
-            textSize(24); // Fixed text size
+            textFont("Georgia");
+            textAlign(CENTER, CENTER);
 
-            // Initialize chariot position (bottom left, adjusted with margin)
             let marginX = width * 0.02;
-            let marginY = 10; // Small margin to keep it near bottom without being too thick
+            let marginY = 10;
             let chariotImage = document.getElementById('chariotImage');
-            let imageHeight = chariotImage.naturalHeight * (200 / chariotImage.naturalWidth); // Updated to match 200px width
-            chariotX = marginX; // Align with left edge + margin
-            chariotY = height - imageHeight - marginY; // Position above bottom with small margin
+            let imageHeight = chariotImage.naturalHeight * (200 / chariotImage.naturalWidth);
+            chariotX = marginX;
+            chariotY = height - imageHeight - marginY;
             document.getElementById('chariotContainer').style.left = chariotX + 'px';
             document.getElementById('chariotContainer').style.top = chariotY + 'px';
         }
@@ -137,8 +138,8 @@
             for (let x = 0; x < nebula.width; x++) {
                 for (let y = 0; y < nebula.height; y++) {
                     let n = noise(x * 0.01, y * 0.01) * 255;
-                    let alpha = map(n, 0, 255, 0, 100); // Kept max alpha at 100
-                    nebula.set(x, y, color(120, 90, 180, alpha)); // Reduced purple intensity
+                    let alpha = map(n, 0, 255, 0, 100);
+                    nebula.set(x, y, color(120, 90, 180, alpha));
                 }
             }
             nebula.updatePixels();
@@ -147,10 +148,10 @@
         function generateStars() {
             stars = [];
             let minDim = min(width, height);
-            for (let i = 0; i < 300; i++) { // Kept at 300 stars
-                let angle = random(TWO_PI); // Random direction toward all corners
-                let maxDist = random(100, minDim * 0.7); // Extend max distance to reach corners
-                let size = random(1, 3); // Reduced size range
+            for (let i = 0; i < 300; i++) {
+                let angle = random(TWO_PI);
+                let maxDist = random(100, minDim * 0.7);
+                let size = random(1, 3);
                 let twinkleSpeed = random(0.02, 0.05);
                 stars.push({ angle, maxDist, size, twinkleSpeed });
             }
@@ -235,24 +236,23 @@
             t += 0.01;
             let alpha = 0;
 
-            // Determine the phase: expansion, hold, or contraction
-            if (radiusFactor >= 0.99) { // Near maximum expansion
+            if (radiusFactor >= 0.99) {
                 if (holdStartTime === 0) {
-                    holdStartTime = millis(); // Start hold timer
+                    holdStartTime = millis();
                 }
                 if (millis() - holdStartTime < holdDuration) {
-                    radiusFactor = 1; // Hold at maximum expansion
-                    alpha = 200; // Full brightness during hold
+                    radiusFactor = 1;
+                    alpha = 200;
                 } else {
-                    holdStartTime = 0; // Reset hold timer for next cycle
+                    holdStartTime = 0;
                 }
             } else {
-                alpha = map(radiusFactor, 0, 1, 50, 200); // Fade during expansion and contraction
+                alpha = map(radiusFactor, 0, 1, 50, 200);
             }
 
             drawSun(centerX, centerY, alpha);
             for (let star of stars) {
-                let dist = star.maxDist * radiusFactor; // Expand to corners, hold, then contract
+                let dist = star.maxDist * radiusFactor;
                 let x = centerX + cos(star.angle) * dist;
                 let y = centerY + sin(star.angle) * dist;
                 let twinkle = sin(frameCount * star.twinkleSpeed) * 0.3 + 0.7;
@@ -261,42 +261,40 @@
             }
             image(roadGraphic, 0, 0);
 
-            // Typing effect with looping transition for only the second message
             if (millis() - lastUpdate >= typingSpeed) {
                 cycleTime = millis();
-                if (charIndex < messages[0].length) {
-                    typedText = messages[0].substring(0, charIndex + 1);
+                if (charIndex < messages[currentMessageIndex].text.length) {
+                    typedText = messages[currentMessageIndex].text.substring(0, charIndex + 1);
                     charIndex++;
                 } else {
                     charIndex = 0;
                     typedText = "";
-                    lastUpdate = millis() + messageDelay; // 3-second delay before restarting
+                    currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+                    lastUpdate = millis() + messageDelay;
                 }
                 lastUpdate = millis();
             }
 
-            // Spiritual and royal font effect for center message
             push();
-            textSize(24); // Fixed text size
-            textAlign(CENTER, CENTER); // Centered alignment
-            fill(255, 215, 0); // Golden-yellow color
+            textSize(messages[currentMessageIndex].size);
+            textAlign(CENTER, CENTER);
+            fill(255, 215, 0);
             text(typedText, width / 2, height / 2);
-            fill(0, 0, 0, 100); // Black shadow with opacity
+            fill(0, 0, 0, 100);
             text(typedText, width / 2 + 2, height / 2 + 2);
             pop();
 
-            // Static text at bottom right with right alignment
             push();
-            textSize(18); // Fixed text size
-            let marginX = width * 0.02; // 2% of width as margin
-            let marginY = height * 0.05; // Increased from 2% to 5% for larger bottom margin
-            textAlign(RIGHT, TOP); // Right-aligned text
-            fill(255, 215, 0); // Golden-yellow color
-            text("Speaker:", width - marginX, height - marginY - 60); // Adjusted Y position for two lines
-            text("Rajat Prabhu", width - marginX, height - marginY - 40); // New line for name
-            fill(0, 0, 0, 100); // Black shadow
-            text("Speaker:", width - marginX - 2, height - marginY - 62); // Shadow for "Speaker:"
-            text("Rajat Prabhu", width - marginX - 2, height - marginY - 42); // Shadow for name
+            textSize(18);
+            let marginX = width * 0.02;
+            let marginY = height * 0.05;
+            textAlign(RIGHT, TOP);
+            fill(255, 215, 0);
+            text("Speaker:", width - marginX, height - marginY - 60);
+            text("Rajat Prabhu", width - marginX, height - marginY - 40);
+            fill(0, 0, 0, 100);
+            text("Speaker:", width - marginX - 2, height - marginY - 62);
+            text("Rajat Prabhu", width - marginX - 2, height - marginY - 42);
             fill(255, 215, 0);
             text("ISKCON PUNE", width - marginX, height - marginY - 20);
             fill(0, 0, 0, 100);
@@ -312,13 +310,12 @@
             generateStars();
             generateRoad();
 
-            // Update chariot position on resize
             let marginX = width * 0.02;
-            let marginY = 10; // Small margin to keep it near bottom
+            let marginY = 10;
             let chariotImage = document.getElementById('chariotImage');
-            let imageHeight = chariotImage.naturalHeight * (200 / chariotImage.naturalWidth); // Updated to match 200px width
-            chariotX = marginX; // Align with left edge + margin
-            chariotY = height - imageHeight - marginY; // Position with small margin
+            let imageHeight = chariotImage.naturalHeight * (200 / chariotImage.naturalWidth);
+            chariotX = marginX;
+            chariotY = height - imageHeight - marginY;
             document.getElementById('chariotContainer').style.left = chariotX + 'px';
             document.getElementById('chariotContainer').style.top = chariotY + 'px';
         }
