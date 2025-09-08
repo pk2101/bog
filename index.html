@@ -69,7 +69,7 @@
         let charIndex = 0;
         let lastUpdate = 0;
         let typingSpeed = 75; // 75ms per character
-        let messageDelay = 3000; // Increased from 1000ms to 3000ms (3 seconds) delay
+        let messageDelay = 3000; // 3 seconds delay
         let cycleTime = 0;
         let isFirstMessage = true;
         let chariotX, chariotY;
@@ -255,7 +255,7 @@
             push();
             textSize(18); // Fixed text size
             let marginX = width * 0.02; // 2% of width as margin
-            let marginY = height * 0.02; // 2% of height as margin
+            let marginY = height * 0.05; // Increased from 2% to 5% for larger bottom margin
             textAlign(RIGHT, TOP); // Right-aligned text
             fill(255, 215, 0); // Golden-yellow color
             text("Speaker:", width - marginX, height - marginY - 60); // Adjusted Y position for two lines
