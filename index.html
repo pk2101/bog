@@ -50,6 +50,27 @@
             max-width: 200px; /* Reduced from 300px to 200px */
             height: auto;
         }
+        #registerLink {
+            position: absolute;
+            top: calc(5% + 110px); /* Below top-right image (5% + 100px height + 10px margin) */
+            right: 5%; /* Aligned with top-right image */
+            width: 100px; /* Match image width for centering */
+            font-family: Georgia, serif;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            text-decoration: underline;
+            text-align: center;
+            z-index: 10;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Black shadow */
+        }
+        #registerLink a {
+            color: white;
+            text-decoration: underline;
+        }
+        #registerLink a:hover {
+            color: #FFD700; /* Golden hover effect for visibility */
+        }
     </style>
 </head>
 <body>
@@ -66,6 +87,9 @@
     </div>
     <div id="chariotContainer">
         <img id="chariotImage" src="images/chariot.png" alt="Chariot from Bhagavad Gita">
+    </div>
+    <div id="registerLink">
+        <a href="https://tinyurl.com/BASICS-OF-BG" target="_blank">REGISTER</a>
     </div>
     <script>
         let stars = [];
@@ -277,21 +301,6 @@
             text("ISKCON PUNE", width - marginX, height - marginY - 20);
             fill(0, 0, 0, 100);
             text("ISKCON PUNE", width - marginX - 2, height - marginY - 22);
-            pop();
-
-            // Static text below top right image, center-aligned on two lines
-            push();
-            textSize(18); // Fixed text size
-            textAlign(CENTER, TOP); // Center-aligned text
-            textStyle(BOLD); // Bold text
-            let topRightX = width - (width * 0.05) - 50; // Center of 100px image at right: 5%
-            let topRightY = height * 0.05 + 110; // Below image (5% of height + 100px height + 10px margin)
-            fill(255); // White color
-            text("REGISTER", topRightX, topRightY);
-            text("AT", topRightX, topRightY + 20); // 20px spacing between lines
-            fill(0, 0, 0, 100); // Black shadow
-            text("REGISTER", topRightX - 2, topRightY + 2);
-            text("AT", topRightX - 2, topRightY + 22);
             pop();
         }
 
