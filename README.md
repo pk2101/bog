@@ -1,1 +1,1 @@
-[Live Site](https://.github.io/bog/)
+[Live Site](https://iskconcamp.github.io/bog/)
